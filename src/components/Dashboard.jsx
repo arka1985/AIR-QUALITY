@@ -113,11 +113,17 @@ const Dashboard = () => {
 
     return (
         <div className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen flex flex-col">
-            <header className="mb-8 text-center md:text-left">
-                <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
-                    AIR QUALITY <span className="text-blue-100 drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]">INDIA</span>
-                </h1>
-                <p className="text-blue-200 mt-2 text-lg neon-text">Real-time Air Quality Monitoring System</p>
+            <header className="mb-8 text-center md:text-left flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
+                <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                    <img src="./logo.png" alt="AQI India Logo" className="relative w-24 h-24 md:w-32 md:h-32 object-contain drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
+                </div>
+                <div>
+                    <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                        AIR QUALITY <span className="text-blue-100 drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]">INDIA</span>
+                    </h1>
+                    <p className="text-blue-200 mt-2 text-lg neon-text">Real-time Air Quality Monitoring System</p>
+                </div>
             </header>
 
             <FilterBar
