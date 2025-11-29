@@ -1,0 +1,16 @@
+
+> aqi-app@0.0.0 build
+> vite build
+
+failed to load config from C:\Users\arka\AQI\vite.config.js
+error during build:
+ReferenceError: defineConfig is not defined
+    at file:///C:/Users/arka/AQI/node_modules/.vite-temp/vite.config.js.timestamp-1764432365053-559184cfdb703.mjs:2:27
+    at ModuleJob.run (node:internal/modules/esm/module_job:271:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:578:26)
+    at async loadConfigFromBundledFile (file:///C:/Users/arka/AQI/node_modules/vite/dist/node/chunks/config.js:36550:12)
+    at async bundleAndLoadConfigFile (file:///C:/Users/arka/AQI/node_modules/vite/dist/node/chunks/config.js:36444:17)
+    at async loadConfigFromFile (file:///C:/Users/arka/AQI/node_modules/vite/dist/node/chunks/config.js:36411:42)
+    at async resolveConfig (file:///C:/Users/arka/AQI/node_modules/vite/dist/node/chunks/config.js:36060:22)
+    at async createBuilder (file:///C:/Users/arka/AQI/node_modules/vite/dist/node/chunks/config.js:34523:19)
+    at async CAC.<anonymous> (file:///C:/Users/arka/AQI/node_modules/vite/dist/node/cli.js:629:10)

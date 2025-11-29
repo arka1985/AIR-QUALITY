@@ -1,0 +1,18 @@
+
+> aqi-app@0.0.0 lint
+> eslint .
+
+
+C:\Users\arka\AQI\src\App.jsx
+  1:10  error  'useState' is defined but never used. Allowed unused vars must match /^[A-Z_]/u   no-unused-vars
+  1:20  error  'useEffect' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\arka\AQI\src\components\StationCard.jsx
+  1:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\arka\AQI\vite.config.js
+  1:16  error  'defineConfig' is not defined  no-undef
+  2:13  error  'react' is not defined         no-undef
+
+Γ£û 5 problems (5 errors, 0 warnings)
+
