@@ -11,7 +11,7 @@ const MapComponent = ({ stations }) => {
 
     useEffect(() => {
         // Fetch the new GeoJSON file directly
-        fetch('./india_states.json')
+        fetch(`${import.meta.env.BASE_URL}india_states.json`)
             .then(response => response.json())
             .then(data => setGeoData(data))
             .catch(err => console.error("Error loading GeoJSON:", err));
