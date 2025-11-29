@@ -22,8 +22,8 @@ const Dashboard = () => {
     const { data, loading, error } = useAQIData({ state: filters.state });
 
     // Group data by station and enrich with derived PM2.5 logic
-    const stations = useMemo(() => {
-        if (!data) return {};
+    const allStations = useMemo(() => {
+        if (!data) return [];
 
         // First pass: Group by station
         const grouped = data.reduce((acc, record) => {
@@ -55,23 +55,58 @@ const Dashboard = () => {
         const stationsCollection = turf.featureCollection(stationsWithPM25);
 
         // Second pass: Enrich each station
-        let result = stations;
+        return stationList.map(station => {
+            const pm25Record = station.pollutants.find(p => p.pollutant_id === 'PM2.5');
+            const pm10Record = station.pollutants.find(p => p.pollutant_id === 'PM10');
+
+            let displayValue = null;
+            let isDerived = false;
+
+            // Priority 1: PM 2.5
+            if (pm25Record && !isNaN(parseInt(pm25Record.avg_value))) {
+                displayValue = parseInt(pm25Record.avg_value);
+            }
+            // Priority 2: PM 10
+            else if (pm10Record && !isNaN(parseInt(pm10Record.avg_value))) {
+                displayValue = parseInt(pm10Record.avg_value);
+            }
+
+            // Priority 3: Nearest PM 2.5 (Derived)
+            if ((displayValue === null || isNaN(displayValue)) && stationsCollection.features.length > 0 && !isNaN(station.lat) && !isNaN(station.lng)) {
+                // Find nearest station with PM2.5
+                const targetPoint = turf.point([station.lng, station.lat]);
+                const nearest = turf.nearestPoint(targetPoint, stationsCollection);
+                if (nearest) {
+                    displayValue = nearest.properties.pm25;
+                    isDerived = true;
+                }
+            }
+
+            return {
+                ...station,
+                displayPM25: displayValue, // Keeping key name for compatibility
+                isDerived,
+                displayColor: getAQIColorHex(displayValue || 0) // Default to gray if still null
+            };
+        });
+    }, [data]);
+
+    const filteredStations = useMemo(() => {
+        if (!allStations) return [];
+        let result = allStations;
         // Filter by City if selected
         if (filters.city) {
             result = result.filter(s => s.city === filters.city);
-        } else {
-            // If no city selected, we still want to filter by state (already done in API hook, but good for safety)
-            // The API hook returns data for the selected state.
         }
         return result;
-    }, [stations, filters.city]);
+    }, [allStations, filters.city]);
 
     // Extract unique cities for the current state data
     const availableCities = useMemo(() => {
-        if (!stations.length) return [];
-        const cities = new Set(stations.map(s => s.city));
+        if (!allStations.length) return [];
+        const cities = new Set(allStations.map(s => s.city));
         return Array.from(cities).sort();
-    }, [stations]);
+    }, [allStations]);
 
     return (
         <div className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen flex flex-col">
