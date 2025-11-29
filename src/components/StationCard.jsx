@@ -61,7 +61,7 @@ const StationCard = ({ data }) => {
                                     position={[lat, lng]}
                                     icon={L.divIcon({
                                         className: 'custom-div-icon',
-                                        html: `<div class="marker-pin ${(!data.isDerived && data.displayPM25 !== null) ? 'marker-pulsating' : ''}" style="background-color: ${data.displayColor}; color: ${data.displayColor}; box-shadow: 0 0 5px ${data.displayColor};"></div>`,
+                                        html: `<div class="marker-pin ${data.isDerived ? '' : 'marker-pulsating'}" style="background-color: ${data.displayColor}; color: ${data.displayColor}; box-shadow: 0 0 5px ${data.displayColor};"></div>`,
                                         iconSize: [12, 12],
                                         iconAnchor: [6, 6]
                                     })}
