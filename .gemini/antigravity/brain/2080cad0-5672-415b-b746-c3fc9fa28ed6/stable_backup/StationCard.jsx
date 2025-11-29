@@ -61,7 +61,7 @@ const StationCard = ({ data }) => {
                                     position={[lat, lng]}
                                     icon={L.divIcon({
                                         className: 'custom-div-icon',
-                                        html: `<div class="marker-pin ${data.hasRealTimeData ? 'marker-pulsating' : ''}" style="background-color: ${data.displayColor}; color: ${data.displayColor}; box-shadow: 0 0 5px ${data.displayColor};"></div>`,
+                                        html: `<div class="marker-pin ${data.isDerived ? '' : 'marker-pulsating'}" style="background-color: ${data.displayColor}; color: ${data.displayColor}; box-shadow: 0 0 5px ${data.displayColor};"></div>`,
                                         iconSize: [12, 12],
                                         iconAnchor: [6, 6]
                                     })}
@@ -88,6 +88,11 @@ const StationCard = ({ data }) => {
                         </div>
                     </div>
                 ))}
+                {data.isDerived && (
+                    <div className="text-xs text-orange-400 mt-2 italic text-center border-t border-white/10 pt-2">
+                        *PM2.5 estimated from nearest station
+                    </div>
+                )}
             </div>
 
             <div className="mt-4 pt-3 border-t border-white/10 text-xs text-gray-500 text-right">

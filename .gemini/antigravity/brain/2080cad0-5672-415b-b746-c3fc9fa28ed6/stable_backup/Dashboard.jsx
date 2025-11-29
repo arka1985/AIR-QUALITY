@@ -60,27 +60,33 @@ const Dashboard = () => {
             const pm10Record = station.pollutants.find(p => p.pollutant_id === 'PM10');
 
             let displayValue = null;
-            let hasRealTimeData = false;
+            let isDerived = false;
 
             // Priority 1: PM 2.5
             if (pm25Record && !isNaN(parseInt(pm25Record.avg_value))) {
                 displayValue = parseInt(pm25Record.avg_value);
-                hasRealTimeData = true;
             }
             // Priority 2: PM 10
             else if (pm10Record && !isNaN(parseInt(pm10Record.avg_value))) {
                 displayValue = parseInt(pm10Record.avg_value);
-                hasRealTimeData = true;
             }
 
-            // No Derived Data Logic - strictly PM2.5 or PM10 or Gray
+            // Priority 3: Nearest PM 2.5 (Derived)
+            if ((displayValue === null || isNaN(displayValue)) && stationsCollection.features.length > 0 && !isNaN(station.lat) && !isNaN(station.lng)) {
+                // Find nearest station with PM2.5
+                const targetPoint = turf.point([station.lng, station.lat]);
+                const nearest = turf.nearestPoint(targetPoint, stationsCollection);
+                if (nearest) {
+                    displayValue = nearest.properties.pm25;
+                    isDerived = true;
+                }
+            }
 
             return {
                 ...station,
-                displayPM25: displayValue,
-                isDerived: false, // Always false now
-                hasRealTimeData,
-                displayColor: getAQIColorHex(displayValue) // Will be gray if null
+                displayPM25: displayValue, // Keeping key name for compatibility
+                isDerived,
+                displayColor: getAQIColorHex(displayValue || 0) // Default to gray if still null
             };
         });
     }, [data]);
@@ -146,9 +152,9 @@ const Dashboard = () => {
             <div className="mt-12 mb-8 glass-panel neon-border p-6 rounded-xl max-w-4xl mx-auto">
                 <h3 className="text-xl font-bold text-white mb-4 text-center">PM2.5 OR PM 10 Color Legend</h3>
                 <p className="text-sm text-blue-200 text-center mb-6 max-w-2xl mx-auto">
-                    <span className="font-bold text-white">Pulsating dots</span> indicate real-time data (PM 2.5 or PM 10).
+                    <span className="font-bold text-white">Pulsating dots</span> indicate real-time data (PM 2.5 or PM 10) from Government sources.
                     <br />
-                    <span className="font-bold text-white">Gray dots</span> indicate no data available.
+                    <span className="font-bold text-white">Static dots</span> indicate data derived from the nearest available station (when local data is unavailable).
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     <div className="flex flex-col items-center">
