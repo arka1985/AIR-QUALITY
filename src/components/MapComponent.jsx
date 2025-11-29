@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import 'leaflet/dist/leaflet.css';
+import shp from 'shpjs';
 import { useEffect, useState } from 'react';
 import * as turf from '@turf/turf';
 
@@ -10,11 +10,10 @@ const MapComponent = ({ stations }) => {
     const center = [20.5937, 78.9629];
 
     useEffect(() => {
-        // Fetch the new GeoJSON file directly
-        fetch(`${import.meta.env.BASE_URL}india_states.json`)
-            .then(response => response.json())
-            .then(data => setGeoData(data))
-            .catch(err => console.error("Error loading GeoJSON:", err));
+        // Fetch and parse the shapefile
+        shp('./india_outline.zip').then(function (geojson) {
+            setGeoData(geojson);
+        }).catch(err => console.error("Error loading shapefile:", err));
     }, []);
 
     return (
@@ -30,19 +29,16 @@ const MapComponent = ({ stations }) => {
                     url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                 />
 
-                {geoData && geoData.features && (
+                {geoData && (
                     <GeoJSON
                         data={geoData}
                         style={{
                             color: '#93c5fd', // blue-300
                             weight: 1,
-                            opacity: 0.3,
-                            dashArray: '2, 4', // Small dotted line
+                            opacity: 0.4,
+                            dashArray: '4, 4',
                             fillColor: 'transparent',
                             fillOpacity: 0
-                        }}
-                        onEachFeature={(feature, layer) => {
-                            // Optional: Add interaction or tooltips here if needed
                         }}
                     />
                 )}
