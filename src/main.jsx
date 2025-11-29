@@ -5,10 +5,11 @@ console.log("Main.jsx starting...");
 
 try {
   const root = createRoot(document.getElementById('root'));
+  // Pure JS, no JSX
   root.render(
-    <div style={{ color: 'white', padding: '20px' }}>
-      <h1>System Check: Main.jsx is running</h1>
-    </div>
+    React.createElement('div', { style: { color: 'white', padding: '20px' } },
+      React.createElement('h1', null, 'System Check: Main.jsx is running (Pure JS)')
+    )
   );
 
   // Remove loading overlay

@@ -7,9 +7,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>aqi-app</title>
   <script>
-    window.onerror = function (message, source, lineno, colno, error) {
-      document.body.innerHTML = '<div style="color:red; background:black; padding:20px; font-family:monospace;"><h1>Global Error</h1><p>' + message + '</p><p>' + source + ':' + lineno + '</p></div>';
-    };
+    window.addEventListener('error', function (e) {
+      const overlay = document.getElementById('loading-overlay');
+      if (overlay) {
+        let msg = '';
+        if (e.target.tagName === 'SCRIPT') {
+          msg = 'Script failed to load: ' + e.target.src;
+        } else {
+          msg = 'Error: ' + e.message;
+        }
+        overlay.innerHTML = '<div style="color:red;padding:20px;"><h1>Load Error</h1><p>' + msg + '</p></div>';
+      }
+    }, true);
   </script>
 </head>
 
