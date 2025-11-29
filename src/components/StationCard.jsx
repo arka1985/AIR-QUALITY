@@ -1,4 +1,7 @@
 import { motion } from 'framer-motion';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useState } from 'react';
 
 const getAQIColor = (value) => {
@@ -33,9 +36,39 @@ const StationCard = ({ data }) => {
 
             {hasLocation && (
                 <div className="mb-4">
-                    <div className="p-2 bg-blue-900/20 rounded text-center text-xs text-blue-300 border border-blue-500/30">
-                        Map Temporarily Disabled
-                    </div>
+                    {!showMap ? (
+                        <button
+                            onClick={() => setShowMap(true)}
+                            className="w-full py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 text-xs rounded border border-blue-500/30 transition-colors"
+                        >
+                            Show Station Map
+                        </button>
+                    ) : (
+                        <div className="h-32 rounded-lg overflow-hidden border border-white/10 relative z-0">
+                            <MapContainer
+                                center={[lat, lng]}
+                                zoom={10}
+                                scrollWheelZoom={true}
+                                zoomControl={true}
+                                dragging={true}
+                                doubleClickZoom={true}
+                                style={{ height: '100%', width: '100%' }}
+                            >
+                                <TileLayer
+                                    url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                                />
+                                <Marker
+                                    position={[lat, lng]}
+                                    icon={L.divIcon({
+                                        className: 'custom-div-icon',
+                                        html: `<div class="marker-pin ${data.isDerived ? '' : 'marker-pulsating'}" style="background-color: ${data.displayColor}; color: ${data.displayColor}; box-shadow: 0 0 5px ${data.displayColor};"></div>`,
+                                        iconSize: [12, 12],
+                                        iconAnchor: [6, 6]
+                                    })}
+                                />
+                            </MapContainer>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -55,6 +88,11 @@ const StationCard = ({ data }) => {
                         </div>
                     </div>
                 ))}
+                {data.isDerived && (
+                    <div className="text-xs text-orange-400 mt-2 italic text-center border-t border-white/10 pt-2">
+                        *PM2.5 estimated from nearest station
+                    </div>
+                )}
             </div>
 
             <div className="mt-4 pt-3 border-t border-white/10 text-xs text-gray-500 text-right">
