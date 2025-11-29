@@ -86,7 +86,7 @@ const Dashboard = () => {
                 ...station,
                 displayPM25: displayValue, // Keeping key name for compatibility
                 isDerived,
-                displayColor: getAQIColorHex(displayValue || 0) // Default to gray if still null
+                displayColor: getAQIColorHex(displayValue) // Will return gray if displayValue is null
             };
         });
     }, [data]);
