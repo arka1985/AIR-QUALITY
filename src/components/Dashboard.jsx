@@ -55,48 +55,6 @@ const Dashboard = () => {
         const stationsCollection = turf.featureCollection(stationsWithPM25);
 
         // Second pass: Enrich each station
-        return stationList.map(station => {
-            const pm25Record = station.pollutants.find(p => p.pollutant_id === 'PM2.5');
-            const pm10Record = station.pollutants.find(p => p.pollutant_id === 'PM10');
-
-            let displayValue = null;
-            let isDerived = false;
-            let hasRealTimeData = false;
-
-            // Priority 1: PM 2.5
-            if (pm25Record && !isNaN(parseInt(pm25Record.avg_value))) {
-                displayValue = parseInt(pm25Record.avg_value);
-                hasRealTimeData = true;
-            }
-            // Priority 2: PM 10
-            else if (pm10Record && !isNaN(parseInt(pm10Record.avg_value))) {
-                displayValue = parseInt(pm10Record.avg_value);
-                hasRealTimeData = true;
-            }
-
-            // Priority 3: Nearest PM 2.5 (Derived)
-            if ((displayValue === null || isNaN(displayValue)) && stationsCollection.features.length > 0 && !isNaN(station.lat) && !isNaN(station.lng)) {
-                // Find nearest station with PM2.5
-                const targetPoint = turf.point([station.lng, station.lat]);
-                const nearest = turf.nearestPoint(targetPoint, stationsCollection);
-                if (nearest) {
-                    displayValue = nearest.properties.pm25;
-                    isDerived = true;
-                }
-            }
-
-            return {
-                ...station,
-                displayPM25: displayValue, // Keeping key name for compatibility
-                isDerived,
-                hasRealTimeData,
-                displayColor: getAQIColorHex(displayValue) // Will return gray if displayValue is null
-            };
-        });
-
-    }, [data]);
-
-    const filteredStations = useMemo(() => {
         let result = stations;
         // Filter by City if selected
         if (filters.city) {
