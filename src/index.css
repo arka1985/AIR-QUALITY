@@ -76,49 +76,27 @@ body {
   text-shadow: 0 0 5px #fff;
 }
 
-/* Custom DivIcon Markers */
-.custom-div-icon {
-  background: transparent;
-  border: none;
-}
-
-.marker-pin {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s ease;
-}
-
-.marker-pulsating {
-  position: relative;
-}
-
-.marker-pulsating::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-  animation: pulse-ring 2s infinite;
-  z-index: -1;
-}
-
-@keyframes pulse-ring {
+@keyframes pulse-neon {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    filter: drop-shadow(0 0 2px currentColor);
+    opacity: 0.8;
+    fill-opacity: 0.8;
   }
 
-  70% {
-    box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
+  50% {
+    filter: drop-shadow(0 0 8px currentColor);
+    opacity: 1;
+    fill-opacity: 0.4;
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    filter: drop-shadow(0 0 2px currentColor);
+    opacity: 0.8;
+    fill-opacity: 0.8;
   }
+}
+
+.neon-marker-pulse {
+  animation: pulse-neon 2s infinite ease-in-out;
+  transform-origin: center;
 }
