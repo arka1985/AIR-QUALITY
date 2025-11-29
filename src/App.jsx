@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import Dashboard from './components/Dashboard'
 
 function App() {
   useEffect(() => {
@@ -9,8 +8,9 @@ function App() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen text-white">
-      <Dashboard />
+    <div className="w-full min-h-screen text-white p-10">
+      <h1 className="text-4xl text-green-500">App.jsx is Working</h1>
+      <p>Dashboard import was removed.</p>
     </div>
   )
 }
