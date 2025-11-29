@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import shp from 'shpjs';
+import 'leaflet/dist/leaflet.css';
 import { useEffect, useState } from 'react';
 import * as turf from '@turf/turf';
 
@@ -10,10 +10,11 @@ const MapComponent = ({ stations }) => {
     const center = [20.5937, 78.9629];
 
     useEffect(() => {
-        // Fetch and parse the shapefile
-        shp('./india_outline.zip').then(function (geojson) {
-            setGeoData(geojson);
-        }).catch(err => console.error("Error loading shapefile:", err));
+        // Fetch the new GeoJSON file directly
+        fetch('./india_states.json')
+            .then(response => response.json())
+            .then(data => setGeoData(data))
+            .catch(err => console.error("Error loading GeoJSON:", err));
     }, []);
 
     return (
@@ -35,8 +36,8 @@ const MapComponent = ({ stations }) => {
                         style={{
                             color: '#93c5fd', // blue-300
                             weight: 1,
-                            opacity: 0.4,
-                            dashArray: '4, 4',
+                            opacity: 0.3,
+                            dashArray: '2, 4', // Small dotted line
                             fillColor: 'transparent',
                             fillOpacity: 0
                         }}
