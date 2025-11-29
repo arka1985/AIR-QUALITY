@@ -2,51 +2,27 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-// Force rebuild: Diagnostic Mode
+// Force rebuild: Simplified Mount
 import React from 'react';
 
-class GlobalErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error("Uncaught error:", error, errorInfo);
-    this.setState({ errorInfo });
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div style={{ padding: '20px', color: 'red', backgroundColor: 'black', height: '100vh', overflow: 'auto' }}>
-          <h1>Something went wrong.</h1>
-          <pre>{this.state.error && this.state.error.toString()}</pre>
-          <pre>{this.state.errorInfo && this.state.errorInfo.componentStack}</pre>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
-
-console.log("Booting React App...");
-
 try {
-  createRoot(document.getElementById('root')).render(
+  const root = createRoot(document.getElementById('root'));
+  root.render(
     <StrictMode>
-      <GlobalErrorBoundary>
-        <App />
-      </GlobalErrorBoundary>
-    </StrictMode>,
+      <App />
+    </StrictMode>
   );
+
+  // Remove loading overlay
+  const overlay = document.getElementById('loading-overlay');
+  if (overlay) overlay.style.display = 'none';
+
   console.log("React App mounted successfully.");
 } catch (e) {
   console.error("Fatal Error during mount:", e);
-  document.body.innerHTML = `<div style="color:red; padding:20px;"><h1>Fatal Mount Error</h1><pre>${e.toString()}</pre></div>`;
+  document.body.innerHTML = `<div style="color:red; padding:20px; background:black; height:100vh;">
+    <h1>Fatal Mount Error</h1>
+    <pre>${e.toString()}</pre>
+    <pre>${e.stack}</pre>
+  </div>`;
 }
