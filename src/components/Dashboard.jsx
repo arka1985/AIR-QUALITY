@@ -61,14 +61,17 @@ const Dashboard = () => {
 
             let displayValue = null;
             let isDerived = false;
+            let hasRealTimeData = false;
 
             // Priority 1: PM 2.5
             if (pm25Record && !isNaN(parseInt(pm25Record.avg_value))) {
                 displayValue = parseInt(pm25Record.avg_value);
+                hasRealTimeData = true;
             }
             // Priority 2: PM 10
             else if (pm10Record && !isNaN(parseInt(pm10Record.avg_value))) {
                 displayValue = parseInt(pm10Record.avg_value);
+                hasRealTimeData = true;
             }
 
             // Priority 3: Nearest PM 2.5 (Derived)
@@ -84,9 +87,10 @@ const Dashboard = () => {
 
             return {
                 ...station,
-                displayPM25: displayValue, // Keeping key name for compatibility, though it might be PM10
+                displayPM25: displayValue, // Keeping key name for compatibility
                 isDerived,
-                displayColor: getAQIColorHex(displayValue || 0) // Default to gray if still null
+                hasRealTimeData,
+                displayColor: getAQIColorHex(displayValue) // Will return gray if displayValue is null
             };
         });
 
