@@ -45,22 +45,12 @@ const Dashboard = () => {
         const stationList = Object.values(grouped);
         const validStations = stationList.filter(s => !isNaN(s.lat) && !isNaN(s.lng));
 
-        // Create a Turf feature collection of stations WITH PM2.5
-        const stationsWithPM25 = validStations.filter(s =>
-            s.pollutants.some(p => p.pollutant_id === 'PM2.5' && !isNaN(parseInt(p.avg_value)))
-        ).map(s => turf.point([s.lng, s.lat], {
-            pm25: parseInt(s.pollutants.find(p => p.pollutant_id === 'PM2.5').avg_value)
-        }));
-
-        const stationsCollection = turf.featureCollection(stationsWithPM25);
-
         // Second pass: Enrich each station
         return stationList.map(station => {
             const pm25Record = station.pollutants.find(p => p.pollutant_id === 'PM2.5');
             const pm10Record = station.pollutants.find(p => p.pollutant_id === 'PM10');
 
             let displayValue = null;
-            let isDerived = false;
 
             // Priority 1: PM 2.5
             if (pm25Record && !isNaN(parseInt(pm25Record.avg_value))) {
@@ -71,22 +61,13 @@ const Dashboard = () => {
                 displayValue = parseInt(pm10Record.avg_value);
             }
 
-            // Priority 3: Nearest PM 2.5 (Derived)
-            if ((displayValue === null || isNaN(displayValue)) && stationsCollection.features.length > 0 && !isNaN(station.lat) && !isNaN(station.lng)) {
-                // Find nearest station with PM2.5
-                const targetPoint = turf.point([station.lng, station.lat]);
-                const nearest = turf.nearestPoint(targetPoint, stationsCollection);
-                if (nearest) {
-                    displayValue = nearest.properties.pm25;
-                    isDerived = true;
-                }
-            }
+            // Priority 3: No Data -> Gray (handled by getAQIColorHex returning gray for null)
 
             return {
                 ...station,
                 displayPM25: displayValue, // Keeping key name for compatibility
-                isDerived,
-                displayColor: getAQIColorHex(displayValue || 0) // Default to gray if still null
+                isDerived: false, // No longer using derived data
+                displayColor: getAQIColorHex(displayValue) // Will return gray if displayValue is null
             };
         });
     }, [data]);
@@ -152,9 +133,9 @@ const Dashboard = () => {
             <div className="mt-12 mb-8 glass-panel neon-border p-6 rounded-xl max-w-4xl mx-auto">
                 <h3 className="text-xl font-bold text-white mb-4 text-center">PM2.5 OR PM 10 Color Legend</h3>
                 <p className="text-sm text-blue-200 text-center mb-6 max-w-2xl mx-auto">
-                    <span className="font-bold text-white">Pulsating dots</span> indicate real-time data (PM 2.5 or PM 10) from Government sources.
+                    <span className="font-bold text-white">Pulsating dots</span> indicate real-time data (PM 2.5 or PM 10).
                     <br />
-                    <span className="font-bold text-white">Static dots</span> indicate data derived from the nearest available station (when local data is unavailable).
+                    <span className="font-bold text-gray-400">Gray dots</span> indicate no data available.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                     <div className="flex flex-col items-center">
