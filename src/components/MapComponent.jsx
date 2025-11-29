@@ -51,7 +51,7 @@ const MapComponent = ({ stations }) => {
 
                     const customIcon = L.divIcon({
                         className: 'custom-div-icon',
-                        html: `<div class="marker-pin ${station.displayPM25 !== null ? 'marker-pulsating' : ''}" style="background-color: ${station.displayColor}; color: ${station.displayColor}; box-shadow: 0 0 5px ${station.displayColor};"></div>`,
+                        html: `<div class="marker-pin ${station.isDerived ? '' : 'marker-pulsating'}" style="background-color: ${station.displayColor}; color: ${station.displayColor}; box-shadow: 0 0 5px ${station.displayColor};"></div>`,
                         iconSize: [12, 12],
                         iconAnchor: [6, 6]
                     });
