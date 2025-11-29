@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, CircleMarker, Popup, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import shp from 'shpjs';
 import { useEffect, useState } from 'react';
@@ -48,18 +49,18 @@ const MapComponent = ({ stations }) => {
 
                     if (isNaN(lat) || isNaN(lng)) return null;
 
+                    const customIcon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<div class="marker-pin ${station.isDerived ? '' : 'marker-pulsating'}" style="background-color: ${station.displayColor}; color: ${station.displayColor}; box-shadow: 0 0 5px ${station.displayColor};"></div>`,
+                        iconSize: [12, 12],
+                        iconAnchor: [6, 6]
+                    });
+
                     return (
-                        <CircleMarker
+                        <Marker
                             key={station.station}
-                            center={[lat, lng]}
-                            radius={6}
-                            pathOptions={{
-                                color: station.displayColor,
-                                fillColor: station.displayColor,
-                                fillOpacity: 0.8,
-                                weight: 2,
-                                className: station.isDerived ? '' : 'neon-marker-pulse'
-                            }}
+                            position={[lat, lng]}
+                            icon={customIcon}
                         >
                             <Popup className="glass-popup">
                                 <div className="text-gray-800">
@@ -79,7 +80,7 @@ const MapComponent = ({ stations }) => {
                                     </div>
                                 </div>
                             </Popup>
-                        </CircleMarker>
+                        </Marker>
                     );
                 })}
             </MapContainer>

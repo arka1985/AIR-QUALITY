@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { MapContainer, TileLayer, CircleMarker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useState } from 'react';
 
@@ -56,16 +57,14 @@ const StationCard = ({ data }) => {
                                 <TileLayer
                                     url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                                 />
-                                <CircleMarker
-                                    center={[lat, lng]}
-                                    radius={6}
-                                    pathOptions={{
-                                        color: data.displayColor,
-                                        fillColor: data.displayColor,
-                                        fillOpacity: 0.8,
-                                        weight: 2,
-                                        className: data.isDerived ? '' : 'neon-marker-pulse'
-                                    }}
+                                <Marker
+                                    position={[lat, lng]}
+                                    icon={L.divIcon({
+                                        className: 'custom-div-icon',
+                                        html: `<div class="marker-pin ${data.isDerived ? '' : 'marker-pulsating'}" style="background-color: ${data.displayColor}; color: ${data.displayColor}; box-shadow: 0 0 5px ${data.displayColor};"></div>`,
+                                        iconSize: [12, 12],
+                                        iconAnchor: [6, 6]
+                                    })}
                                 />
                             </MapContainer>
                         </div>
