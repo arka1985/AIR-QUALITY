@@ -78,22 +78,21 @@ body {
 
 @keyframes pulse-neon {
   0% {
-    filter: drop-shadow(0 0 2px currentColor);
-    opacity: 0.8;
+    stroke-opacity: 0.8;
+    stroke-width: 2;
   }
 
   50% {
-    filter: drop-shadow(0 0 8px currentColor);
-    opacity: 1;
+    stroke-opacity: 0.4;
+    stroke-width: 8;
   }
 
   100% {
-    filter: drop-shadow(0 0 2px currentColor);
-    opacity: 0.8;
+    stroke-opacity: 0.8;
+    stroke-width: 2;
   }
 }
 
 .neon-marker-pulse {
-  animation: pulse-neon 2s infinite;
-  transform-origin: center;
+  animation: pulse-neon 2s infinite ease-in-out;
 }
