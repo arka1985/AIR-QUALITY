@@ -104,9 +104,9 @@ const Dashboard = () => {
                 cities={availableCities}
             />
 
-            {!loading && !error && filteredStations.length > 0 && (
+            {/* {!loading && !error && filteredStations.length > 0 && (
                 <MapComponent stations={filteredStations} />
-            )}
+            )} */}
 
             <div className="flex-grow">
                 {loading ? (
