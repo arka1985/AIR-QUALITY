@@ -3,7 +3,6 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import shp from 'shpjs';
 import { useEffect, useState } from 'react';
-import * as turf from '@turf/turf';
 
 const MapComponent = ({ stations }) => {
     const [geoData, setGeoData] = useState(null);
@@ -51,7 +50,7 @@ const MapComponent = ({ stations }) => {
 
                     const customIcon = L.divIcon({
                         className: 'custom-div-icon',
-                        html: `<div class="marker-pin ${station.isDerived ? '' : 'marker-pulsating'}" style="background-color: ${station.displayColor}; color: ${station.displayColor}; box-shadow: 0 0 5px ${station.displayColor};"></div>`,
+                        html: `<div class="marker-pin ${station.hasRealTimeData ? 'marker-pulsating' : ''}" style="background-color: ${station.displayColor}; color: ${station.displayColor}; box-shadow: 0 0 5px ${station.displayColor};"></div>`,
                         iconSize: [12, 12],
                         iconAnchor: [6, 6]
                     });
@@ -72,11 +71,6 @@ const MapComponent = ({ stations }) => {
                                                 <b>{p.pollutant_id}:</b> {p.avg_value}
                                             </div>
                                         ))}
-                                        {station.isDerived && (
-                                            <div className="text-xs text-orange-600 mt-1 italic">
-                                                *PM2.5 est. from nearest station
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                             </Popup>
