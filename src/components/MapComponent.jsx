@@ -30,7 +30,7 @@ const MapComponent = ({ stations }) => {
                     url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                 />
 
-                {geoData && (
+                {geoData && geoData.features && (
                     <GeoJSON
                         data={geoData}
                         style={{
@@ -40,6 +40,9 @@ const MapComponent = ({ stations }) => {
                             dashArray: '2, 4', // Small dotted line
                             fillColor: 'transparent',
                             fillOpacity: 0
+                        }}
+                        onEachFeature={(feature, layer) => {
+                            // Optional: Add interaction or tooltips here if needed
                         }}
                     />
                 )}
