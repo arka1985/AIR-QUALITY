@@ -123,9 +123,9 @@ const Dashboard = () => {
                 cities={availableCities}
             />
 
-            {!loading && !error && filteredStations.length > 0 && (
+            {/* {!loading && !error && filteredStations.length > 0 && (
                 <MapComponent stations={filteredStations} />
-            )}
+            )} */}
 
             <div className="flex-grow">
                 {loading ? (
@@ -142,9 +142,10 @@ const Dashboard = () => {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                        {filteredStations.map(station => (
+                        {/* {filteredStations.map(station => (
                             <StationCard key={station.station} data={station} />
-                        ))}
+                        ))} */}
+                        <div className="text-white">Cards Disabled for Diagnostics</div>
                     </div>
                 )}
             </div>

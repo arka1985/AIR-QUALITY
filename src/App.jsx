@@ -9,10 +9,8 @@ function App() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen text-white p-10">
-      <h1 className="text-4xl text-green-500">App is Working</h1>
-      <p>If you see this, Dashboard.jsx is the problem.</p>
-      {/* <Dashboard /> */}
+    <div className="w-full min-h-screen text-white">
+      <Dashboard />
     </div>
   )
 }
