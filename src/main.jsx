@@ -1,16 +1,14 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-// Force rebuild: Simplified Mount
 import React from 'react';
+
+console.log("Main.jsx starting...");
 
 try {
   const root = createRoot(document.getElementById('root'));
   root.render(
-    <StrictMode>
-      <App />
-    </StrictMode>
+    <div style={{ color: 'white', padding: '20px' }}>
+      <h1>System Check: Main.jsx is running</h1>
+    </div>
   );
 
   // Remove loading overlay
@@ -23,6 +21,5 @@ try {
   document.body.innerHTML = `<div style="color:red; padding:20px; background:black; height:100vh;">
     <h1>Fatal Mount Error</h1>
     <pre>${e.toString()}</pre>
-    <pre>${e.stack}</pre>
   </div>`;
 }
