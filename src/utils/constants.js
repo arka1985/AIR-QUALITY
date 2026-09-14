@@ -1,6 +1,6 @@
 export const STATES = [
-    "Andhra_Pradesh",
-    "Arunachal_Pradesh",
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
     "Assam",
     "Bihar",
     "Chandigarh",
@@ -12,7 +12,7 @@ export const STATES = [
     "Gujarat",
     "Haryana",
     "Himachal Pradesh",
-    "Jammu_and_Kashmir",
+    "Jammu and Kashmir",
     "Jharkhand",
     "Karnataka",
     "Kerala",
@@ -29,11 +29,11 @@ export const STATES = [
     "Punjab",
     "Rajasthan",
     "Sikkim",
-    "TamilNadu",
+    "Tamil Nadu",
     "Telangana",
     "Tripura",
-    "Uttar_Pradesh",
+    "Uttar Pradesh",
     "Uttarakhand",
-    "West_Bengal",
+    "West Bengal",
     "Andaman and Nicobar"
 ];

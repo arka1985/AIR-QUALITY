@@ -12,7 +12,7 @@ const FilterBar = ({ filters, setFilters, cities }) => {
                 >
                     <option value="">All States</option>
                     {STATES.map(state => (
-                        <option key={state} value={state} className="bg-gray-900">{state.replace(/_/g, ' ')}</option>
+                        <option key={state} value={state} className="bg-gray-900">{state}</option>
                     ))}
                 </select>
             </div>
