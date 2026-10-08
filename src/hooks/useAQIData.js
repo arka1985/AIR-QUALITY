@@ -18,7 +18,7 @@ export const useAQIData = (filters = {}) => {
                 if (filters.station) apiParams['filters[station]'] = filters.station;
 
                 const result = await fetchAQIData(apiParams);
-                setData(result.records || []);
+                setData(result?.records || []);
             } catch (err) {
                 setError(err);
             } finally {

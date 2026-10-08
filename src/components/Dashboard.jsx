@@ -117,7 +117,7 @@ const Dashboard = () => {
                     </div>
                 ) : error ? (
                     <div className="text-red-400 text-center p-8 glass-panel neon-border rounded-xl">
-                        Error loading data. Please try again later.
+                        Error loading data: {error instanceof Error ? error.message : String(error)}. Please try again later.
                     </div>
                 ) : filteredStations.length === 0 ? (
                     <div className="text-blue-300 text-center p-8 glass-panel neon-border rounded-xl">
